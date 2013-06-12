@@ -1,5 +1,5 @@
 #include "Saver.h"
-#include <highgui\highgui_c.h>
+#include <opencv2/highgui/highgui_c.h>
 
 
 Saver::Saver(void):m_path("")
@@ -20,6 +20,6 @@ Saver::~Saver(void)
 void Saver::saveImage( IplImage* iamge,std::string name )
 {
 	assert(m_path != "");
-	string fullpath = m_path + name;
+	std::string fullpath = m_path + name;
 	cvSaveImage(fullpath.c_str(), iamge,0);
 }

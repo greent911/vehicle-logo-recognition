@@ -3,7 +3,7 @@
 #include <cv.h>
 #include "SiftFeature.h"
 #include "SIFTController.h"
-#include <highgui\highgui_c.h>
+#include <opencv2/highgui/highgui_c.h>
 
 DataBaseController::DataBaseController(void)
 {

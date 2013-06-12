@@ -1,5 +1,5 @@
 #include "Window.h"
-#include <highgui\highgui_c.h>
+#include <opencv2/highgui/highgui_c.h>
 #include <assert.h>
 
 using namespace std;

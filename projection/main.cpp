@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cv.h>
-#include <highgui\highgui_c.h>
+#include <opencv2/highgui/highgui_c.h>
 #include <string>
 #include <fstream>
 #include "Window.h"
@@ -34,6 +34,7 @@ int main(int argc,char *argv[])
 	if (argc != 4)
 	{
 		printf("error input string\n");
+		system("PAUSE");
 		exit(0);
 	}
 

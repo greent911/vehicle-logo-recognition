@@ -1,0 +1,21 @@
+﻿已經開始建置於 2013/6/12 下午 03:44:01。
+節點 2 (build 目標) 上的專案 "C:\Documents and Settings\greent\My Documents\GitHub\vehicle-logo-recognition\projection\projection.vcxproj"。
+InitializeBuildStatus:
+  由於指定了 "AlwaysCreate"，因此正在建立 "Debug\projection.unsuccessfulbuild"。
+ClCompile:
+  所有輸出都是最新的。
+  所有輸出都是最新的。
+ManifestResourceCompile:
+  所有輸出都是最新的。
+Link:
+  所有輸出都是最新的。
+Manifest:
+  所有輸出都是最新的。
+FinalizeBuildStatus:
+  正在刪除檔案 "Debug\projection.unsuccessfulbuild"。
+  正在變更時間戳記 "Debug\projection.lastbuildstate"。
+專案 "C:\Documents and Settings\greent\My Documents\GitHub\vehicle-logo-recognition\projection\projection.vcxproj" (build 目標) 建置完成。
+
+建置成功。
+
+經過時間 00:00:00.75

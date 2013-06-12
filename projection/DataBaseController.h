@@ -2,6 +2,8 @@
 #include <vector>
 #include "TemplateLogo.h"
 
+using namespace std;
+
 // virtual function loadInData can be derived for change 
 class DataBaseController
 {
