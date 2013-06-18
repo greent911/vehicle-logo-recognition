@@ -39,7 +39,10 @@ int main(int argc,char *argv[])
 	}
 
 	string filesLocation(argv[1]),saveDirectory(argv[2]),templateLocation(argv[3]);
-
+	// cout << "filesLocation:" << filesLocation << endl;
+	// cout << "saveDirectory:" << saveDirectory << endl;
+	// cout << "templateLocation:" << templateLocation << endl;
+	 
 	CarLogoDetector detector;
 	DataBaseController* databaseController = new DataBaseController(templateLocation);
 
@@ -87,12 +90,12 @@ int main(int argc,char *argv[])
 
 		// get the coarse logo 
 		IplImage* logo = detector.getCoarseLogoAreaFromImage(image);
-		
+		cvSaveImage("hihi.jpg",logo);
 
 	#ifdef DETECT
 	//show coarse result
-		//Window m_window(*it);
-		//m_window.show(logo,0);
+		Window m_window(*it);
+		m_window.show(logo,0);
 
 		// detect the coarse logo
 		className = detector.detectLogoImage(logo);

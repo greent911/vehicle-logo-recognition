@@ -37,14 +37,14 @@ IplImage* CarLogoDetector::getCoarseLogoAreaFromImage(IplImage* image )
 	
 	// do preprocessing to the images, make it smaller and do canny edge detection
 	DIPController imageProcessing;
-	MyImagePtr smallerImg(imageProcessing.getScaleImage(image,0.5));
+	MyImagePtr smallerImg(imageProcessing.getScaleImage(image,1));
 	MyImagePtr cannyImg(imageProcessing.getCannyImage(smallerImg.get()));
 
 	//show result
-	#ifdef SHOWRESULT
+//	#ifdef SHOWRESULT
 Window canny("cannyImg");
 	canny.show(cannyImg.get(),0);
-#endif
+//#endif
 	//1. get the vertical projection and calculate the left and right of the car
 
 	boost::shared_ptr<ProjGraph> vertical(new VerticalProjection(cannyImg.get()));
@@ -55,7 +55,8 @@ Window canny("cannyImg");
 
 	// warp it to get the right and left using the ProjArray class
 	ProjArray verticalArray(xArray);
-	Boundary b(Prior_left, Prior_right);
+	//Boundary b(Prior_left, Prior_right);
+	Boundary b(0, cannyImg->width);
 	Section leftAndRight = verticalArray.getLongtestNeighborLength(NEIGHBOUR_DIST,b);
 	
 	// input the background and the vertical projection to get the projection image
@@ -63,10 +64,10 @@ Window canny("cannyImg");
 	vertical->drawSection(leftAndRight);
 
 	//show result
-#ifdef SHOWRESULT
+//#ifdef SHOWRESULT
 	BasicCvApi::Window verticalImg("verticalProjection");
 	vertical->show(verticalImg);
-#endif
+//#endif
 
 	// get background image and put it in the horizontal projection image
 	IplImage* tempBack = vertical->getGraphImage();
@@ -76,14 +77,16 @@ Window canny("cannyImg");
 	ProjArray HorizontalArray(yArray);
 
 	// get the bottom and top of the car from the image based on analysis of the projection image
+	//Section upandDown = HorizontalArray.getUpAndDown();
+	Boundary b1(0, cannyImg->height);
 	Section upandDown = HorizontalArray.getUpAndDown();
 
 	horizontal->getBackground(tempBack,HorizontalArray.getData());
 	horizontal->drawSection(upandDown);
-#ifdef SHOWRESULT	
+//#ifdef SHOWRESULT	
 	BasicCvApi::Window horizonW("horizonProjection");
 	horizontal->show(horizonW);
-#endif
+//#endif
 	// will return the whole graph image
 	//return horizontal->getGraphImage();
 

@@ -128,12 +128,31 @@ void ProjArray::smooth( int winsize )
 	}
 }
 
+Section ProjArray::getUpAndDown() 
+{
+	int maximun = 0 , second = 0;
+	for(int i = 0 ; i < data.size() ; i++ ) {
+		if(maximun == 0 ) 
+			maximun = i ;
+		else {
+			if(data[i] >= data[maximun] ) {
+				second = maximun;
+				maximun = i;
+			}
+		}
+	}
+	if( maximun > second )
+		return Section(second, maximun);
+	else
+		return Section(maximun, second);
+}
+
 bool CompareIterator(vector<int>::iterator & lhs, vector<int>::iterator & rhs)
 {
 	return *lhs < *rhs;
 }
 
-
+/*
 Section ProjArray::getUpAndDown()
 {
 	// find the median
@@ -152,9 +171,15 @@ Section ProjArray::getUpAndDown()
 // 	{
 // 		values.push_back(**it);
 // 	}
-
+	for( vector< vector<int>::iterator>::iterator it = its.begin(); it != its.end(); it++)
+ 	{
+ 		cout << ' ' <<  **it ; 
+ 	}
+	cout << '\n';
+	cout << "median=" << median << endl;
 	vector<TestPoint> points;
-	for ( int i = 150; i < data.size() - LIGHTZONE_WIDTH; i++)
+	//for ( int i = 150; i < data.size() - LIGHTZONE_WIDTH; i++)
+	for ( int i = 0; i < data.size() - LIGHTZONE_WIDTH; i++)
 	{
 		if ( data[i] > median)
 		{
@@ -177,7 +202,9 @@ Section ProjArray::getUpAndDown()
 	}
 	else
 	{
-		vector<TestPoint>::iterator left25percent = points.end() - 10;
+		cout << "points size:" << points.size() << endl;
+		//vector<TestPoint>::iterator left25percent = points.end() - 10;
+		vector<TestPoint>::iterator left25percent = points.begin() + points.size()*0.75;
 		nth_element( points.begin(), left25percent, points.end());
 		for( vector<TestPoint>::iterator it = left25percent; it != points.end(); it++)
 		{
@@ -205,7 +232,7 @@ Section ProjArray::getUpAndDown()
 
 	return Section(d,d + LIGHTZONE_WIDTH);
 }
-
+*/
 vector<int> ProjArray::getData() const
 {
 	return vector<int>(this->data.begin(), this->data.end());

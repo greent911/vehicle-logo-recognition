@@ -39,11 +39,14 @@ IplImage* DIPController::getSubImage( IplImage* image, Section leftAndRight, Sec
 	int w = leftAndRight.end - leftAndRight.start;
 	int h = upAndDown.end - upAndDown.start;
 
-	int middle_X = x + w/2 - LOGO_HALF_W;
-	int middle_w = 2*LOGO_HALF_W;
+	//int middle_X = x + w/2 - LOGO_HALF_W;
+	//int middle_w = 2*LOGO_HALF_W;
 
+	//cvSetImageROI(image, 
+		//cvRect(2*middle_X, 2*y, 2*middle_w, 2*h)
+		//);
 	cvSetImageROI(image, 
-		cvRect(2*middle_X, 2*y, 2*middle_w, 2*h)
+		cvRect(x, y-40 , w, h*1.5)
 		);
 	IplImage* lightZone = cvCreateImage(cvGetSize(image), image->depth,image->nChannels);
 	cvCopy(image, lightZone,NULL);
