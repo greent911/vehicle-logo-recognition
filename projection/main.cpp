@@ -16,6 +16,15 @@
 #include <boost/smart_ptr.hpp>
 #include <boost/timer.hpp>
 
+#include <stdio.h>
+#include <iostream>
+#include "opencv2/core/core.hpp"
+#include "opencv2/features2d/features2d.hpp"
+#include "opencv2/highgui/highgui.hpp"
+#include <opencv2/nonfree/features2d.hpp>
+#include <opencv2/legacy/legacy.hpp>
+using namespace cv;
+
 using namespace std;
 using namespace BasicCvApi;
 using namespace boost;
@@ -92,6 +101,54 @@ int main(int argc,char *argv[])
 		IplImage* logo = detector.getCoarseLogoAreaFromImage(image);
 		cvSaveImage("hihi.jpg",logo);
 
+		IplImage* image1 = cvLoadImage("C:\\logo\\tlogo.jpg", CV_LOAD_IMAGE_GRAYSCALE);
+//BasicCvApi::MyImagePtr imagePtr1(image1);
+// get the coarse logo
+//IplImage* fetch_result = detector.getCoarseLogoAreaFromImage(image);
+//cvSaveImage("fetch_result.jpg",fetch_result);
+cv::Mat fetch_result_MAT(logo,0); 
+//show surf matching.
+// vector of keypoints
+cv::Mat outImg1, outImg2;
+vector<cv::KeyPoint> keypoints1, keypoints2;
+
+// Read input images
+cv::Mat logoImg_MAT(image1,0);
+cv::namedWindow("logoImg_MAT");
+imshow("logoImg_MAT", logoImg_MAT);
+cv::SurfFeatureDetector surf(2500);
+
+surf.detect(fetch_result_MAT, keypoints1);
+surf.detect(logoImg_MAT, keypoints2);
+drawKeypoints(fetch_result_MAT, keypoints1, outImg1, Scalar(255,255,255), DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
+drawKeypoints(logoImg_MAT, keypoints2, outImg2, Scalar(255,255,255), DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
+
+//cv::namedWindow("SURF detector img1");
+//imshow("SURF detector img1", outImg1);
+
+//cv::namedWindow("SURF detector img2");
+//imshow("SURF detector img2", outImg2);
+
+SurfDescriptorExtractor surfDesc;
+Mat descriptors1, descriptors2;
+surfDesc.compute(fetch_result_MAT, keypoints1, descriptors1);
+surfDesc.compute(logoImg_MAT, keypoints2, descriptors2);
+
+BruteForceMatcher< L2<float> > matcher;
+vector<DMatch> matches;
+matcher.match(descriptors1,descriptors2, matches);
+
+nth_element(matches.begin(), matches.begin()+24, matches.end());
+matches.erase(matches.begin()+25, matches.end());
+
+Mat imageMatches;
+drawMatches(fetch_result_MAT, keypoints1, logoImg_MAT , keypoints2, matches, imageMatches, Scalar(255,255,255));
+
+namedWindow("Matched");
+imshow("Matched", imageMatches);
+
+cv::waitKey();
+
 	#ifdef DETECT
 	//show coarse result
 		Window m_window(*it);
@@ -118,7 +175,13 @@ int main(int argc,char *argv[])
 	cvSaveImage(saveLoc.c_str(), logo,0);
 #endif
 	}
+	
 	cout<<"OK"<<endl;
 	fout.close();
+
+
+
+
+
  	 return 0;
 }

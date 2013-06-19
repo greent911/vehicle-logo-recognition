@@ -52,6 +52,10 @@ Window canny("cannyImg");
 
 	// calculate vertical projection
 	vertical->calculateProj(xArray);
+	for(int i=0;i<xArray.size();i++)
+	{
+		cout << ' ' <<xArray[i];
+	}
 
 	// warp it to get the right and left using the ProjArray class
 	ProjArray verticalArray(xArray);
